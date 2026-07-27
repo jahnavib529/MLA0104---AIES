@@ -1,0 +1,38 @@
+def greedy_best_first_search(graph, heuristic, start, goal):
+    visited = []
+    queue = [(start, heuristic[start])]  
+    while queue:
+        queue.sort(key=lambda x: x[1])
+        current, _ = queue.pop(0)
+        if current in visited:
+            continue
+        visited.append(current)
+        print("Visited:", current)
+        if current == goal:
+            print("Goal found:", goal)
+            return
+        for neighbor, cost in graph[current]:
+            if neighbor not in visited:
+                queue.append((neighbor, heuristic[neighbor]))
+
+    print("Goal not found")
+
+graph = {
+    'A': [('B', 1), ('C', 4)],
+    'B': [('D', 3), ('E', 2)],
+    'C': [('F', 5)],
+    'D': [('G', 4)],
+    'E': [('G', 1)],
+    'F': [('G', 2)],
+    'G': []
+}
+heuristic = {
+    'A': 6,
+    'B': 4,
+    'C': 5,
+    'D': 2,
+    'E': 1,
+    'F': 3,
+    'G': 0
+}
+greedy_best_first_search(graph, heuristic, 'A', 'G')
